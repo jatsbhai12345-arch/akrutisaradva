@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧸 Valentine's Teddy Day Love Adventure 💝 – For Ms. Saradva</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffccd5, #ff9aa2, #ff758c, #ff4d6d);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #2d0a14;
+            overflow-x: hidden;
+        }
+        h1 {
+            color: #c41e3b;
+            font-size: 2.8em;
+            margin: 20px 0 10px;
+            text-align: center;
+            text-shadow: 0 3px 12px rgba(196,30,59,0.3);
+        }
+        .intro {
+            font-size: 1.4em;
+            color: #880e4f;
+            text-align: center;
+            max-width: 640px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .progress {
+            font-size: 1.3em;
+            color: #b00020;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        #game-container {
+            background: rgba(255,245,247,0.94);
+            padding: 40px 35px;
+            border-radius: 28px;
+            box-shadow: 0 15px 45px rgba(196,30,59,0.22);
+            max-width: 640px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #question {
+            font-size: 1.75em;
+            color: #c2185b;
+            margin-bottom: 35px;
+            min-height: 90px;
+            font-weight: 500;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            margin: 14px 0;
+            font-size: 1.18em;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #ff9aa2;
+            background: #fff0f5;
+            color: #2d0a14;
+        }
+        .option-btn:hover {
+            background: #ff9aa2;
+            transform: translateY(-3px);
+        }
+        .option-btn.selected {
+            background: #d81b60;
+            color: white;
+            border-color: #c2185b;
+        }
+        #yes-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            box-shadow: 0 8px 24px rgba(233,30,99,0.4);
+        }
+        #yes-btn:hover {
+            transform: scale(1.1);
+            background: #c2185b;
+        }
+        #no-btn {
+            background: #eceff1;
+            color: #607d8b;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+        #no-btn:hover, #no-btn:active {
+            transform: translateX(450px) scale(0.65) rotate(25deg) !important;
+            opacity: 0.25;
+            transition: all 0.8s ease;
+        }
+        #custom-answer {
+            width: 100%;
+            padding: 18px;
+            margin: 22px 0;
+            font-size: 1.12em;
+            border: 2px solid #ff9aa2;
+            border-radius: 18px;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 90px;
+        }
+        #submit-btn {
+            background: linear-gradient(135deg, #c2185b, #e91e63, #d81b60);
+            color: white;
+            border: none;
+            padding: 18px 60px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 8px 25px rgba(194,30,59,0.35);
+            transition: all 0.3s;
+        }
+        #submit-btn:hover {
+            transform: scale(1.08);
+        }
+        #feedback {
+            margin: 30px 0;
+            font-size: 1.35em;
+            min-height: 80px;
+            color: #c2185b;
+            font-weight: 500;
+        }
+        .heart-float {
+            position: absolute;
+            font-size: 2.8em;
+            pointer-events: none;
+            animation: floatUp 3.5s ease-out forwards;
+            z-index: 10;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.4); opacity: 0; }
+            20% { opacity: 1; transform: scale(1.3); }
+            100% { transform: translateY(-400px) scale(0.7); opacity: 0; }
+        }
+        #win-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .big-teddy {
+            font-size: 8em;
+            margin: 25px 0;
+            animation: hug 2.4s infinite alternate;
+        }
+        @keyframes hug {
+            from { transform: scale(1) rotate(-7deg); }
+            to { transform: scale(1.12) rotate(7deg); }
+        }
+        @media (max-width: 620px) {
+            h1 { font-size: 2.4em; }
+            #question { font-size: 1.5em; }
+            .option-btn { font-size: 1.08em; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧸💝 Valentine's Teddy Day Love Adventure 💝🧸</h1>
+    <p class="intro">
+        To my one and only Valentine – Ms. Saradva 💖<br>
+        This special Teddy Day + Valentine's game is made with all my love.<br>
+        Choose what your heart feels… or write your own words.<br>
+        Every answer makes me fall for you even more 🌹
+    </p>
+
+    <div class="progress">Question <span id="q-number">1</span> of 9 • Love Hearts: <span id="hearts">0</span> 🧸💕</div>
+
+    <div id="game-container">
+        <div id="question"></div>
+
+        <div id="options"></div>
+
+        <textarea id="custom-answer" placeholder="Or write your feelings for me here... 💌🌹" rows="3"></textarea>
+
+        <button id="submit-btn">Send my heart to you 💝</button>
+
+        <div id="feedback"></div>
+    </div>
+
+    <div id="win-screen">
+        <div class="big-teddy">🧸💖</div>
+        <h2 style="font-size:2.6em; color:#c2185b; margin:30px 0;">My forever Valentine...</h2>
+        <p id="result-message" style="font-size:1.45em; line-height:1.7; color:#2d0a14; max-width:620px; margin:0 auto 40px;"></p>
+        <p style="font-size:1.7em; color:#b00020; margin:45px 0 30px; font-weight:500;">
+            Happy Teddy Day & Happy Valentine's Day, Ms. Saradva 🧸🌹💝<br>
+            You are my sweetest cuddle, my biggest love, my forever Valentine.<br>
+            Thank you for filling my life with so much warmth and happiness.
+        </p>
+        <p style="font-size:1.8em; color:#880e4f; font-weight:bold;">
+            With all my love today and always,<br>Mr. Baraiya ❤️
+        </p>
+        <button onclick="location.reload()" style="margin-top:50px; background:linear-gradient(135deg,#c2185b,#e91e63); color:white; padding:18px 70px; border:none; border-radius:50px; font-size:1.35em; cursor:pointer; box-shadow:0 10px 30px rgba(194,30,59,0.4);">
+            Play again with my Valentine 💝
+        </button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "Do you love me?",
+                special: "yesNo",
+                points: 3
+            },
+            {
+                q: "What do you think steals my heart every time I look at you?",
+                options: [
+                    "Your smile that feels like Valentine's sunshine 😊",
+                    "Your eyes that sparkle brighter than any rose 🌹",
+                    "How cute you look when you're feeling shy",
+                    "The way you blush when I compliment you",
+                    "Your soft laugh that sounds like love music",
+                    "How beautiful you are even in the simplest moments"
+                ],
+                points: 1
+            },
+            {
+                q: "Which moment between us feels most like a Valentine's dream?",
+                options: [
+                    "When we laugh together until we can't breathe 😂",
+                    "When we cuddle quietly like two teddy bears 🧸",
+                    "The little surprises we plan for each other",
+                    "Late-night talks when the world disappears",
+                    "When we share food and feed each other",
+                    "Our romantic walks holding hands under the stars",
+                    "When I hug you tight and you hug me back"
+                ],
+                points: 1
+            },
+            {
+                q: "What makes you feel most loved on Valentine's & Teddy Day?",
+                options: [
+                    "When I truly listen to every word you say",
+                    "My warm teddy hugs that never want to let go 🧸",
+                    "When I remember tiny things you told me",
+                    "When I make time just for us no matter what",
+                    "When I keep checking if you're okay & happy",
+                    "When I send you sweet good morning & night messages",
+                    "When I call you beautiful and mean it every time"
+                ],
+                points: 1
+            },
+            {
+                q: "If I had to choose one Valentine word for you, it would be...",
+                options: [
+                    "Beautiful",
+                    "My sweetheart",
+                    "My everything",
+                    "Home",
+                    "My forever Valentine",
+                    "My peace & happiness",
+                    "My lucky rose 🌹"
+                ],
+                points: 1
+            },
+            {
+                q: "Which little thing I do makes your Valentine's heart flutter?",
+                options: [
+                    "Good morning & good night messages every day",
+                    "Sending you cute love memes, songs or photos",
+                    "Calling you my special Valentine name",
+                    "Asking if you ate, rested, or reached safely",
+                    "Sending voice notes saying I miss you",
+                    "Keeping your photo as my phone wallpaper",
+                    "Saying “I love you” many times a day"
+                ],
+                points: 1
+            },
+            {
+                q: "Where do you feel the most loved & romantic with me?",
+                options: [
+                    "Anywhere — because you're my Valentine",
+                    "Cuddling at home like teddy bears 🧸",
+                    "Romantic drives or bike rides together",
+                    "Watching love movies while holding each other",
+                    "Eating your favorite food on a cozy date",
+                    "Sitting somewhere quiet talking about our future",
+                    "Just lying down looking into each other's eyes"
+                ],
+                points: 1
+            },
+            {
+                q: "Which future moment with me excites your Valentine's heart the most?",
+                options: [
+                    "Our first big romantic trip together ✈️❤️",
+                    "Celebrating many more Valentine's & Teddy Days",
+                    "Building a cozy love-filled home",
+                    "Growing old together, still holding hands",
+                    "Taking cute couple photos everywhere",
+                    "Supporting each other's dreams forever",
+                    "Creating thousands of small romantic moments"
+                ],
+                points: 1
+            },
+            {
+                q: "Right now, on this Valentine's Teddy Day… what do you want to say to me from your heart?",
+                options: [],
+                customOnly: true,
+                points: 3
+            }
+        ];
+
+        let current = 0;
+        let hearts = 0;
+        let selectedOption = null;
+
+        const qEl = document.getElementById("question");
+        const optsEl = document.getElementById("options");
+        const customEl = document.getElementById("custom-answer");
+        const submitBtn = document.getElementById("submit-btn");
+        const feedbackEl = document.getElementById("feedback");
+
+        function createFloatingHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart-float";
+            heart.innerHTML = Math.random() > 0.6 ? "💝" : Math.random() > 0.3 ? "🌹" : "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = "80%";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4500);
+        }
+
+        function loadQuestion() {
+            const q = questions[current];
+            qEl.textContent = q.q;
+            document.getElementById("q-number").textContent = current + 1;
+
+            optsEl.innerHTML = "";
+            customEl.value = "";
+            selectedOption = null;
+
+            if (q.special === "yesNo") {
+                customEl.style.display = "none";
+                submitBtn.style.display = "none";
+
+                const yes = document.createElement("button");
+                yes.id = "yes-btn";
+                yes.className = "option-btn";
+                yes.textContent = "Yes 💝 (forever & always!)";
+                yes.onclick = () => {
+                    hearts += q.points;
+                    document.getElementById("hearts").textContent = hearts;
+                    feedbackEl.innerHTML = "My Valentine heart knew it! I'm the luckiest man alive 🥰💖";
+                    for(let i = 0; i < 14; i++) {
+                        setTimeout(createFloatingHeart, i * 150);
+                    }
+                    setTimeout(nextQuestion, 2800);
+                };
+                optsEl.appendChild(yes);
+
+                const no = document.createElement("button");
+                no.id = "no-btn";
+                no.className = "option-btn";
+                no.textContent = "No 😔";
+                no.onclick = (e) => {
+                    e.preventDefault();
+                    return false;
+                };
+                optsEl.appendChild(no);
+            }
+            else {
+                customEl.style.display = "block";
+                submitBtn.style.display = "inline-block";
+                submitBtn.textContent = current === questions.length - 1 ? "Send my final Valentine heart 💌" : "Send my love 💝";
+
+                if (!q.customOnly) {
+                    q.options.forEach((opt, i) => {
+                        const btn = document.createElement("button");
+                        btn.className = "option-btn";
+                        btn.textContent = opt;
+                        btn.onclick = () => {
+                            document.querySelectorAll('#options .option-btn').forEach(b => b.classList.remove("selected"));
+                            btn.classList.add("selected");
+                            selectedOption = i;
+                        };
+                        optsEl.appendChild(btn);
+                    });
+                } else {
+                    customEl.placeholder = "Write whatever your heart wants to tell me today... I want to read every word 🌹💕";
+                }
+            }
+        }
+
+        submitBtn.onclick = () => {
+            const q = questions[current];
+
+            let answered = false;
+
+            if (selectedOption !== null || customEl.value.trim() !== "") {
+                answered = true;
+                hearts += q.points;
+                document.getElementById("hearts").textContent = hearts;
+
+                feedbackEl.innerHTML = "You make every day feel like Valentine's Day 🧸💝";
+                for(let i = 0; i < 9; i++) {
+                    setTimeout(createFloatingHeart, i * 220);
+                }
+            }
+
+            if (!answered) {
+                alert("Please choose one option or write something sweet for your Valentine 💝");
+                return;
+            }
+
+            setTimeout(nextQuestion, 2000);
+        };
+
+        function nextQuestion() {
+            feedbackEl.innerHTML = "";
+            selectedOption = null;
+            current++;
+            if (current < questions.length) {
+                loadQuestion();
+            } else {
+                showFinalSurprise();
+            }
+        }
+
+        function showFinalSurprise() {
+            document.getElementById("game-container").style.display = "none";
+            document.getElementById("win-screen").style.display = "block";
+
+            let msg = "";
+
+            if (hearts >= 12) {
+                msg = "You filled the screen with so many hearts today… but you already had every single one of mine the moment you became my Valentine. Every answer, every word you shared — it reminded me how deeply, truly, madly I love you. You're my forever love.";
+            } else if (hearts >= 8) {
+                msg = "Look at all these beautiful hearts you earned… but the truth is, you won my heart long before this game. Thank you for being my sweetest Valentine, my warmest teddy, my everything. I’m so lucky to love you.";
+            } else {
+                msg = "No matter how many hearts danced across the screen — you already own my entire heart forever. I love your smile, your heart, your everything. You’re my Valentine today, tomorrow, and always.";
+            }
+
+            document.getElementById("result-message").textContent = msg;
+        }
+
+        // Start the game
+        loadQuestion();
+    </script>
+
+</body>
+</html>
